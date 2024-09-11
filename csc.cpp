@@ -10,7 +10,7 @@ vector<vector<int>>g, gr;
 //g[i]- stores all vertices to which roads go from vertex i
 //if you change the direction of all roads, then gr[i]-will store all vertices to which roads go from vertex i
 
-vector<bool>used;
+vector<int>used;
 //first, we use used in dfs1 (to see if the current vertex was visited or not)
 //then in dfs2 we equate used[v] to the csc number that vertex v belongs to
 vector<int>topsort;
@@ -25,7 +25,7 @@ void dfs1(int v) {//dfs 1 is needed to compile the topological sorting of our gr
 }
 
 void dfs2(int v, int k) {
-    used[v] = k;//
+    used[v] = k;//the vertex v lies in the csc with the number k
     for (auto to: gr[v])
         if (used[to] == 0)
             dfs2(to, k);
@@ -34,27 +34,25 @@ void dfs2(int v, int k) {
 int main() {
     int n, m; //n-vertices and m-roads
     cin >> n >> m;
+    //do not forget to allocate places for global vectors
     g.resize(n);
     gr.resize(n);
     used.resize(n, 1);
-    for (int i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++) {//introducing our directional roads
         int l, r; cin >> l >> r;
-        r--; l--
+        r--; l--;//indexing from 0
         g[l].push_back(r);
-     
         gr[r].push_back(l);
     }
-    
     for (int i = 0; i < n; i++)//let's go through all the vertices to make a topological sorting
         if (used[i] == 1)
             dfs(i);
-    reverse(topsort.begin(), topsort.end());
-    //let's reverse our topological sorting
+    reverse(topsort.begin(), topsort.end());//let's reverse our topological sorting
     int k = 1;//we will number the csc from 1
-    for (int i = 0; i < topsort.size(); i++)
+    for (int i = 0; i < topsort.size(); i++)//assign the csc number in used[i], which contains the vertex i
         if (used[topsort[i]] == 0)
             dfs2(topsort[i], k++);
     
-    for (int i = 0; i < n; i++)
-        cout << i + 1 << " : " << used[i] << endl;
+    for (int i = 0; i < n; i++)//output for viewing the vertex and its csc number
+        cout << i + 1 << " : " << used[i] << '\n';
 }
