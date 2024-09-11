@@ -1,1 +1,2 @@
-topsort -      for an acyclic graph (since we can have cycles, our topsort is the order of vertices coming out of dfs, which must be reversed)
+vector<int>topsort: is a topological sorting of vertices of an oriented acyclic graph where there is no road to the left from a vertex equal to topsort[i]
+There are cycles in graphs from csc problems, then topsort is an inverted order of vertices coming out of dfs
